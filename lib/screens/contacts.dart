@@ -1,22 +1,20 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'keypad.dart';
+import 'package:phone_dialer/widgets/keypad.dart';
 import 'package:call_number/call_number.dart';
 
 
 
 class ContactsApp extends StatefulWidget {
   final Function(String value) updateActiveScreen;
-  const ContactsApp({this.updateActiveScreen});
+  final List<Contact> trueContacts;
+  const ContactsApp({this.updateActiveScreen, this.trueContacts});
   @override
   _ContactsAppState createState() => _ContactsAppState();
 }
 
 class _ContactsAppState extends State<ContactsApp> {
   final darkBlue = const Color(0xff1C2C3B);
-  Iterable<Contact> _contacts;
   List<Contact> _trueContacts;
   ScrollController _controller;
   var activeSelection = 0;
@@ -24,65 +22,7 @@ class _ContactsAppState extends State<ContactsApp> {
   void initState() {
     _controller = ScrollController();
     super.initState();
-    getPermissions();
-  }
-
-  getPermissions() {
-    getContacts();
-  }
-
-  void getContacts() async {
-    PermissionStatus permissionStatus = await _getPermission(PermissionGroup.contacts);
-    if (permissionStatus == PermissionStatus.granted) {
-      var contacts = await ContactsService.getContacts();
-      if(this.mounted) {
-        setState(() {
-          _contacts = contacts;
-        });
-      }
-    } else {
-      throw PlatformException(
-        code: 'PERMISSION_DENIED',
-        message: 'Access to location data denied',
-        details: null,
-      );
-    }
-    var trueContacts = await getTrueContacts();      //Skip contacts without phone number
-    if(this.mounted) {
-        setState(() {
-          _trueContacts = trueContacts;
-        });
-      }
-  }
-
-  Future<PermissionStatus> _getPermission(permissionType) async {
-    PermissionStatus permission = await PermissionHandler()
-      .checkPermissionStatus(permissionType);
-    if (permission != PermissionStatus.granted &&
-      permission != PermissionStatus.disabled) {
-        Map<PermissionGroup, PermissionStatus> permisionStatus =
-          await PermissionHandler()
-            .requestPermissions([permissionType]);
-        return permisionStatus[permissionType] ??
-          PermissionStatus.unknown;
-    } 
-    else
-      return permission;
-  }
-
-  getTrueContacts() {
-    List<Contact> _trueContacts = [];
-    for(var i=0; i< _contacts.length; i++) {
-      var c = _contacts.elementAt(i);
-      var phoneNumberList = c.phones.toList();
-      for(var j=0; j<phoneNumberList.length; j++) {
-        if(phoneNumberList[j].value.length > 0 && phoneNumberList[j].value.contains("+91")) {
-          _trueContacts.add(c);
-          break;
-        }
-      }
-    }
-    return _trueContacts;
+    _trueContacts = widget.trueContacts;
   }
 
   void _goToHome() {
@@ -155,7 +95,7 @@ class _ContactsAppState extends State<ContactsApp> {
   Widget _screen() {
     return Container(
       color: Colors.white,
-       child: _contacts != null ? _contactList() : _loader()
+       child: _trueContacts != null ? _contactList() : _loader()
     );
   }
 

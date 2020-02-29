@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:call_number/call_number.dart';
 
-import 'keypad.dart';
+import 'package:phone_dialer/widgets/keypad.dart';
 
 class DialerApp extends StatefulWidget {
   final Function(String value) updateActiveScreen;

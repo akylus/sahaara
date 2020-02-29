@@ -72,15 +72,13 @@ class KeyPad extends StatelessWidget {
   }
 
   Widget _numberIcon(number) {
-    return Container(
-        child: Expanded(
-          child: RaisedButton(
-          onPressed: ()=> onNumberKeyClicked(number), 
-          child: 
-            Image.asset('assets/images/$number.png'),
-          color: darkBlue,
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        ),
+    return Expanded(
+        child: RaisedButton(
+        onPressed: ()=> onNumberKeyClicked(number), 
+        child: 
+          Image.asset('assets/images/$number.png'),
+        color: darkBlue,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       ),
     );
   }

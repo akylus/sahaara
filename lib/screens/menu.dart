@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'keypad.dart';
+import 'package:phone_dialer/widgets/keypad.dart';
 
 class Menu extends StatefulWidget {
   final Function(String value) updateActiveScreen;
@@ -29,7 +29,7 @@ class _MenuState extends State<Menu> {
             }
           },
           onDownButtonClicked: () {
-            if(activeSelection < 1){ 
+            if(activeSelection < 2){ 
               setState(() {
                 activeSelection++;
               });
@@ -41,6 +41,9 @@ class _MenuState extends State<Menu> {
             }
             else if(activeSelection == 1) {
               widget.updateActiveScreen("Contacts");
+            }
+            else if(activeSelection == 2) {
+              widget.updateActiveScreen("CallLog");
             }
           },
         ),
@@ -75,6 +78,7 @@ class _MenuState extends State<Menu> {
               children: <Widget>[
                 _menuIcons(Icons.call, 0, "Phone"),
                 _menuIcons(Icons.contacts, 1, "Contacts"),
+                _menuIcons(Icons.call_missed, 2, "Call Log"),
               ],
             ),
           ],
