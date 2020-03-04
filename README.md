@@ -15,3 +15,4 @@ Apart from being a huge help for people starting off with an Android phone, this
 
 - Dial a number with the Phone app
 - Select a contact from the Contacts app
+- Access Call Logs (Alpha)
