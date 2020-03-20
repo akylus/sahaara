@@ -36,7 +36,7 @@ class _CallLogAppState extends State<CallLogApp> {
       });
       if(activeSelection < logEntries.length-3)
         _controller.animateTo(_controller.offset - 72.0,
-          curve: Curves.linear, duration: Duration(milliseconds: 50));
+          curve: Curves.linear, duration: Duration(milliseconds: 80));
     }
   }
 
@@ -47,7 +47,7 @@ class _CallLogAppState extends State<CallLogApp> {
       });
       if(activeSelection > 2)
       _controller.animateTo(_controller.offset + 72.0,
-        curve: Curves.linear, duration: Duration(milliseconds: 50));
+        curve: Curves.linear, duration: Duration(milliseconds: 80));
     }
   }
 
